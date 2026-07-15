@@ -4,6 +4,8 @@ FROM debian:bookworm-slim
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends iverilog \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd --create-home --uid 1000 --user-group --shell /usr/sbin/nologin sandbox
 
+USER sandbox
 WORKDIR /work
