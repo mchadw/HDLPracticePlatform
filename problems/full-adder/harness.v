@@ -14,6 +14,7 @@ module tb_full_adder;
     integer passed;
     integer total;
     integer i;
+    integer seed;
     integer seed_sink;
 
     reg         first_fail_valid;
@@ -68,8 +69,10 @@ module tb_full_adder;
         total = 0;
         first_fail_valid = 1'b0;
 
-        // Seed set HERE: $urandom(SEED) reseeds the RNG with SEED (32'hFADD_E201).
-        seed_sink = $urandom(SEED);
+        // Seed set HERE: copy hardcoded SEED into an integer, then $urandom(seed).
+        // Icarus requires the seed argument to be an integer/time/reg variable.
+        seed = SEED;
+        seed_sink = $urandom(seed);
 
         // Directed edge cases: all 8 input combinations.
         apply_and_check(0, 0, 0);

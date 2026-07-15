@@ -14,6 +14,7 @@ module tb_counter_4bit;
     integer i;
     integer j;
     integer n;
+    integer seed;
     integer seed_sink;
 
     reg         first_fail_valid;
@@ -75,8 +76,10 @@ module tb_counter_4bit;
         rst = 1'b1;
         model_q = 4'b0000;
 
-        // Seed set HERE: $urandom(SEED) reseeds the RNG with SEED (32'hC0A7_0004).
-        seed_sink = $urandom(SEED);
+        // Seed set HERE: copy hardcoded SEED into an integer, then $urandom(seed).
+        // Icarus requires the seed argument to be an integer/time/reg variable.
+        seed = SEED;
+        seed_sink = $urandom(seed);
 
         // Directed: reset, then count through wrap (0..15..0), then mid-sequence reset.
         step_with_rst(1'b1);
